@@ -21,7 +21,10 @@ interface Leader {
 
 const DEPT_COLOR: Record<string, string> = {
   ФСО: "bg-gold/15 text-gold border-gold/40",
-  УСН: "bg-red-900/30 text-red-300 border-red-500/40",
+  УСН: "bg-violet-900/30 text-violet-300 border-violet-500/40",
+  СБП: "bg-rose-900/30 text-rose-300 border-rose-500/40",
+  ООС: "bg-sky-900/30 text-sky-300 border-sky-500/40",
+  КК: "bg-amber-900/30 text-amber-300 border-amber-500/40",
   Штаб: "bg-blue-900/30 text-blue-300 border-blue-500/40",
   "Кадровый аппарат": "bg-emerald-900/30 text-emerald-300 border-emerald-500/40",
 };

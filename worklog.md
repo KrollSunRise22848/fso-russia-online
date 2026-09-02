@@ -76,3 +76,52 @@ Stage Summary:
 - All API endpoints secured with HMAC-signed cookie auth
 - VLM-verified premium design quality
 - Admin login: admin / fso2024
+
+---
+Task ID: 9-21
+Agent: main
+Task: Extract УСН.docx content + images, rebuild site with real structure, add official coat of arms, improve font readability
+
+Work Log:
+- Extracted УСН.docx (9.5MB Word file) via pandoc + unzip:
+  - 588 lines of structured text about УСН
+  - 5 infographic images: SBP scheme, OOS convoy, KK posts, radio codes, mutual substitution
+- Analyzed images via VLM: these are infographics/pamyatki (not emblems), showing real УСН protocols
+- Copied 5 infographics to /public/images/usn/ (sbp-scheme.png, oos-convoy.png, kk-posts.png, radio-codes.png, mutual-substitution.png)
+- Rebuilt UsnSection with 3 departments (КК/ООС/СБП), legal basis, links to subsections
+- Created new SbpSection with infographic, leadership, near circle/outer perimeter, attack/mass disturbance protocols
+- Created new OosSection with convoy composition (13 cars Aurus Senat/Komendant), lead car, radio exchange, prohibitions
+- Created new KkSection with tasks, posts, citizen/transport check algorithm, prohibitions, main principle
+- Created RadioCodesSection with all 6 codes (01-06), format banner, infographic, rules
+- Created MutualSubstitutionSection with КК↔СБП↔ООС substitution matrix, emergency priorities, main principle
+- Updated page.tsx with 10 sections in order: Hero → About → USN → SBP → OOS → KK → Radio → Substitution → Leaders → Orders → News
+- Updated Header NAV with new sections (СБП, ООС, КК, Коды)
+- Updated Footer nav with all 10 sections
+- Re-seeded database with real structure:
+  - 9 leaders (ФСО куратор, УСН начальник, СБП/ООС/КК начальники + заместители) based on УСН.docx
+  - 7 orders (Положение УСН, радиокоды, взаимозамещение, кортеж ООС, охрана СБП, памятка КК, правовая основа)
+  - 6 news based on real events from УСН.docx
+- Added DEPARTMENTS: ФСО, УСН, СБП, ООС, КК, Штаб, Кадровый аппарат (in constants.ts)
+- Updated LeadersSection DEPT_COLOR for all 7 departments
+
+User then sent official symbolism image (eJC7U.png — 1177x1280 gold double-headed eagle on red shield with crowns/scepter/orb)
+- Copied to /public/images/fso-coat-of-arms.png
+- Replaced fso-emblem.png references in Header, Hero, Footer with fso-coat-of-arms.png
+- Updated favicon in layout.tsx
+- Improved font readability:
+  - Added PT Sans Google font (best for Cyrillic) as primary body font
+  - Increased foreground contrast: oklch(0.96→0.98)
+  - Brighter muted-foreground: oklch(0.72→0.82), plus override to 0.86 for text-muted-foreground
+  - Darker navy background for more contrast: oklch(0.16→0.13)
+  - Added body line-height 1.65, letter-spacing 0.01em, antialiased, optimizeLegibility
+  - Headings line-height 1.25
+  - Increased text sizes in UsnSection (text-base/text-lg), AboutSection (text-foreground/90)
+  - Made muted text brighter throughout SbpSection, UsnSection
+
+Stage Summary:
+- Real УСН structure from УСН.docx fully integrated (3 departments + radio codes + substitution)
+- 5 official infographics displayed on site
+- Official coat of arms (gold double-headed eagle on red shield) replaces AI-generated emblem
+- Font readability improved: PT Sans + higher contrast + larger sizes + better line-height
+- 9 real leaders, 7 real orders, 6 news all based on УСН.docx content
+- VLM-verified: coat of arms visible, font readable, design solid and official

@@ -59,7 +59,7 @@ export function AboutSection() {
                 {title}
               </h3>
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">{text}</p>
+            <p className="text-sm text-foreground/90 leading-relaxed">{text}</p>
           </div>
         ))}
       </div>
@@ -74,7 +74,7 @@ export function AboutSection() {
           <div className="ornament-divider w-24 mb-6">
             <span className="text-gold">❖</span>
           </div>
-          <p className="font-cyrillic text-xl md:text-2xl italic text-foreground/90 max-w-3xl mx-auto leading-relaxed">
+            <p className="font-cyrillic text-xl md:text-2xl italic text-foreground/95 max-w-3xl mx-auto leading-relaxed">
             «Цель Службы — обеспечение законности, охрана Государства и защита интересов
             его граждан. Каждый сотрудник — носитель чести и достоинства российского
             государственного служащего».

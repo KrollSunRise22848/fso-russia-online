@@ -25,13 +25,13 @@ export function Hero() {
         <div className="relative mb-8 animate-fade-up">
           <div className="absolute inset-0 -m-8 rounded-full bg-gold/10 blur-3xl pulse-gold" />
           <img
-            src="/images/fso-emblem.png"
+            src="/images/fso-coat-of-arms.png"
             alt="Герб Федеральной Службы Охраны"
-            className="relative h-32 w-32 md:h-48 md:w-48 object-contain drop-shadow-[0_0_25px_rgba(212,175,55,0.5)]"
+            className="relative h-36 w-36 md:h-52 md:w-52 object-contain drop-shadow-[0_0_25px_rgba(212,175,55,0.5)]"
           />
         </div>
 
-        <p className="text-xs md:text-sm uppercase tracking-[0.4em] text-gold/80 mb-3 animate-fade-up" style={{ animationDelay: "0.1s", opacity: 0 }}>
+        <p className="text-xs md:text-sm uppercase tracking-[0.4em] text-gold/90 mb-3 animate-fade-up font-semibold" style={{ animationDelay: "0.1s", opacity: 0 }}>
           Федеральная Служба Охраны
         </p>
         <h1
@@ -41,7 +41,7 @@ export function Hero() {
           Россия Онлайн
         </h1>
         <p
-          className="font-cyrillic text-base md:text-xl text-foreground/80 italic max-w-2xl mb-10 animate-fade-up"
+          className="font-cyrillic text-lg md:text-2xl text-foreground/90 italic max-w-2xl mb-10 animate-fade-up leading-relaxed"
           style={{ animationDelay: "0.3s", opacity: 0 }}
         >
           «Верность. Честь. Отвага.» — девиз, объединяющий тех, кто стоит на страже

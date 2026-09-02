@@ -8,6 +8,10 @@ import { cn } from "@/lib/utils";
 const NAV = [
   { href: "#about", label: "О ФСО" },
   { href: "#usn", label: "УСН" },
+  { href: "#sbp", label: "СБП" },
+  { href: "#oos", label: "ООС" },
+  { href: "#kk", label: "КК" },
+  { href: "#radio-codes", label: "Коды" },
   { href: "#leaders", label: "Руководство" },
   { href: "#orders", label: "Приказы" },
   { href: "#news", label: "Новости" },
@@ -37,10 +41,10 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 md:h-20 flex items-center justify-between">
         {/* Logo / brand */}
         <a href="#top" className="flex items-center gap-3 group">
-          <div className="relative h-10 w-10 md:h-12 md:w-12 shrink-0">
+          <div className="relative h-10 w-10 md:h-12 md:w-12 shrink-0 rounded-full overflow-hidden">
             <img
-              src="/images/fso-emblem.png"
-              alt="Эмблема ФСО"
+              src="/images/fso-coat-of-arms.png"
+              alt="Герб ФСО"
               className="h-full w-full object-contain drop-shadow-[0_0_8px_rgba(212,175,55,0.4)] group-hover:rotate-3 transition-transform duration-500"
             />
           </div>
@@ -54,13 +58,13 @@ export function Header() {
           </div>
         </a>
 
-        {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-8">
+          {/* Desktop nav */}
+        <nav className="hidden lg:flex items-center gap-6">
           {NAV.map((n) => (
             <a
               key={n.href}
               href={n.href}
-              className="relative text-sm uppercase tracking-[0.15em] text-foreground/80 hover:text-gold transition-colors group py-2"
+              className="relative text-sm uppercase tracking-[0.12em] font-medium text-foreground/90 hover:text-gold transition-colors group py-2"
             >
               {n.label}
               <span className="absolute -bottom-0.5 left-0 right-0 h-px bg-gradient-to-r from-gold via-gold to-transparent scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />

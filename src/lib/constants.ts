@@ -24,6 +24,9 @@ export const ORDER_STATUSES = [
 export const DEPARTMENTS = [
   "ФСО",
   "УСН",
+  "СБП",
+  "ООС",
+  "КК",
   "Штаб",
   "Кадровый аппарат",
 ] as const;

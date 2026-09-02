@@ -21,9 +21,9 @@ export function Footer() {
           <div className="flex flex-col items-center md:items-start gap-3">
             <div className="flex items-center gap-3">
               <img
-                src="/images/fso-emblem.png"
-                alt="Эмблема ФСО"
-                className="h-12 w-12 object-contain drop-shadow-[0_0_8px_rgba(212,175,55,0.3)]"
+                src="/images/fso-coat-of-arms.png"
+                alt="Герб ФСО"
+                className="h-14 w-14 object-contain drop-shadow-[0_0_8px_rgba(212,175,55,0.3)] rounded-full"
               />
               <div>
                 <p className="font-serif-display text-xl font-bold gold-text-gradient tracking-wider">
@@ -34,7 +34,7 @@ export function Footer() {
                 </p>
               </div>
             </div>
-            <p className="text-xs text-muted-foreground leading-relaxed max-w-xs font-cyrillic italic">
+            <p className="text-sm text-foreground/85 leading-relaxed max-w-xs font-cyrillic italic">
               «Верность. Честь. Отвага.» — девиз Службы, объединяющий тех, кто стоит на
               страже законности и порядка в Государстве.
             </p>
@@ -46,6 +46,11 @@ export function Footer() {
             {[
               { href: "#about", label: "О ФСО" },
               { href: "#usn", label: "УСН" },
+              { href: "#sbp", label: "СБП — Служба Президента" },
+              { href: "#oos", label: "ООС — Спецсопровождения" },
+              { href: "#kk", label: "КК — Комендатура Кремля" },
+              { href: "#radio-codes", label: "Радиокоды УСН" },
+              { href: "#substitution", label: "Взаимозамещение" },
               { href: "#leaders", label: "Состав руководства" },
               { href: "#orders", label: "Приказы" },
               { href: "#news", label: "Новости" },

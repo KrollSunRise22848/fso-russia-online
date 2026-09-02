@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Playfair_Display, Cormorant_Garamond } from "next/font/google";
+import { Geist, Geist_Mono, Playfair_Display, Cormorant_Garamond, PT_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -11,6 +11,13 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const ptSans = PT_Sans({
+  variable: "--font-pt-sans",
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
 });
 
 const playfair = Playfair_Display({
@@ -30,10 +37,10 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: "ФСО — Россия Онлайн | Официальный портал",
   description: "Федеральная Служба Охраны — Россия Онлайн. Официальный портал государственной структуры. Приказы, новости, состав руководства.",
-  keywords: ["ФСО", "Россия Онлайн", "GTA 5", "Федеральная Служба Охраны", "УСН", "правительство", "официальный портал"],
+  keywords: ["ФСО", "Россия Онлайн", "GTA 5", "Федеральная Служба Охраны", "УСН", "СБП", "ООС", "КК", "правительство", "официальный портал"],
   authors: [{ name: "ФСО — Россия Онлайн" }],
   icons: {
-    icon: "/images/fso-emblem.png",
+    icon: "/images/fso-coat-of-arms.png",
   },
   openGraph: {
     title: "ФСО — Россия Онлайн",
@@ -50,7 +57,8 @@ export default function RootLayout({
   return (
     <html lang="ru" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${cormorant.variable} antialiased bg-background text-foreground min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} ${ptSans.variable} ${playfair.variable} ${cormorant.variable} antialiased bg-background text-foreground min-h-screen`}
+        style={{ fontFamily: "var(--font-pt-sans), var(--font-geist-sans), system-ui, sans-serif" }}
       >
         {children}
         <Toaster />
