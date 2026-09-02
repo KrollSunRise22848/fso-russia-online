@@ -1,0 +1,70 @@
+// Prisma schema for FSO — Россия Онлайн
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String // hashed
+  name      String?
+  role      String   @default("admin") // admin | super
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model News {
+  id          String   @id @default(cuid())
+  title       String
+  summary     String
+  content     String
+  category    String   @default("Общее") // Общее | Важно | События | Назначения
+  imageUrl    String?
+  isPinned    Boolean  @default(false)
+  published   Boolean  @default(true)
+  authorId    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Order {
+  id          String   @id @default(cuid())
+  number      String   @unique // номер приказа, e.g. "№ 1/2024"
+  title       String
+  summary     String
+  content     String
+  category    String   @default("Общий") // Общий | По личному составу | По строевой части | Дисциплинарный
+  signedBy    String   // кем подписан
+  signedRole  String   // должность подписавшего
+  status      String   @default("Действует") // Действует | Отменён | Утратил силу
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Leader {
+  id          String   @id @default(cuid())
+  fullName    String
+  rank        String   // звание
+  position    String   // должность
+  department  String   // ФСО | УСН | Штаб
+  orderNumber Int      @default(0) // порядок отображения
+  bio         String?
+  awards      String?  // награды (через запятую)
+  imageUrl    String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SiteSettings {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  updatedAt   DateTime @updatedAt
+}
