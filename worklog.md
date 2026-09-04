@@ -206,3 +206,53 @@ Stage Summary:
 - Admin panel transformed from slide-over to full /admin page with dashboard
 - 13 leaders, 13 orders, 10 news (УСН + УПП + Кодекс этики)
 - Server stable via start-stop-daemon (PID 1811)
+
+---
+Task ID: 35-41
+Agent: main
+Task: Prepare project for GitHub + Vercel deployment (multi-page site with admin)
+
+Work Log:
+- User asked if the site can be hosted on GitHub and opened via link from anywhere
+- Explained 4 deployment options: Vercel (recommended), Railway, GitHub Pages (static only), VPS
+- Recommended Vercel + Neon PostgreSQL (both free, ideal for Next.js)
+
+Project prepared for Vercel deployment:
+- Updated prisma/schema.prisma → provider = "postgresql" with @@index for performance
+- Created prisma/schema.sqlite.prisma → for local dev (SQLite)
+- Updated package.json:
+  - db:push → uses schema.sqlite.prisma (dev)
+  - db:push:prod → uses main schema.prisma (Vercel/PostgreSQL)
+  - build → "prisma generate && next build" (Vercel-ready)
+  - start → "next start" (Vercel-ready)
+  - Added "prisma" config block pointing to main schema
+- Created vercel.json with framework=nextjs, buildCommand, installCommand
+- Created README.md with:
+  - Step-by-step Vercel deployment instructions
+  - GitHub push instructions
+  - Neon PostgreSQL setup guide
+  - Alternative hosting options (Railway, GitHub Pages, VPS)
+  - Project structure overview
+  - Tech stack documentation
+- Created .env.example with DATABASE_URL examples (SQLite + PostgreSQL) and SESSION_SECRET
+- Updated .gitignore:
+  - Removed .env* wildcard, added explicit .env variants
+  - Excluded /db/*.db (SQLite dev DB)
+  - Excluded /upload/ (user content)
+  - Excluded /screenshot-*.png
+  - Excluded /agent-ctx/
+- Removed db/custom.db from git tracking (kept locally for dev)
+- Committed all changes to main branch
+
+Verification:
+- Lint: clean
+- All 8 routes return HTTP 200 after Prisma schema change
+- Server stable (PID 4837 via start-stop-daemon)
+- Prisma client generated successfully for SQLite (dev)
+
+Stage Summary:
+- Project is ready to push to GitHub and deploy on Vercel
+- README.md has complete instructions
+- Dual-database setup: SQLite for local dev, PostgreSQL for Vercel prod
+- User needs to: create GitHub repo, push, import to Vercel, add DATABASE_URL from Neon, deploy
+- Admin credentials remain: admin / fso2024
