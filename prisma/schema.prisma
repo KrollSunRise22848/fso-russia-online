@@ -1,10 +1,13 @@
 // Prisma schema for FSO — Россия Онлайн
+// Supports both SQLite (local dev) and PostgreSQL (production on Vercel/Neon)
+// The provider is chosen via the DATABASE_PROVIDER env variable (defaults to sqlite).
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -23,13 +26,17 @@ model News {
   title       String
   summary     String
   content     String
-  category    String   @default("Общее") // Общее | Важно | События | Назначения
-  imageUrl    String?
-  isPinned    Boolean  @default(false)
-  published   Boolean  @default(true)
-  authorId    String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  category   String   @default("Общее") // Общее | Важно | События | Назначения
+  imageUrl   String?
+  isPinned   Boolean  @default(false)
+  published  Boolean  @default(true)
+  authorId   String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([published])
+  @@index([isPinned])
+  @@index([createdAt])
 }
 
 model Order {
@@ -45,6 +52,10 @@ model Order {
   published   Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([published])
+  @@index([createdAt])
+  @@index([status])
 }
 
 model Leader {
@@ -52,7 +63,7 @@ model Leader {
   fullName    String
   rank        String   // звание
   position    String   // должность
-  department  String   // ФСО | УСН | Штаб
+  department  String   // ФСО | УСН | СБП | ООС | КК | УПП | ОПП | Штаб
   orderNumber Int      @default(0) // порядок отображения
   bio         String?
   awards      String?  // награды (через запятую)
@@ -60,6 +71,10 @@ model Leader {
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([orderNumber])
+  @@index([department])
 }
 
 model SiteSettings {

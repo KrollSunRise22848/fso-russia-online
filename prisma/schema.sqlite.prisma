@@ -1,0 +1,73 @@
+// Prisma schema for FSO — Россия Онлайн (SQLite version for local dev)
+// Use this schema when DATABASE_URL points to a SQLite file (e.g. file:./db/custom.db)
+// Switch the schema in package.json: "db:push": "prisma db push --schema=prisma/schema.sqlite.prisma"
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  name      String?
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model News {
+  id          String   @id @default(cuid())
+  title       String
+  summary     String
+  content     String
+  category    String   @default("Общее")
+  imageUrl    String?
+  isPinned    Boolean  @default(false)
+  published   Boolean  @default(true)
+  authorId    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Order {
+  id          String   @id @default(cuid())
+  number      String   @unique
+  title       String
+  summary     String
+  content     String
+  category    String   @default("Общий")
+  signedBy    String
+  signedRole  String
+  status      String   @default("Действует")
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Leader {
+  id          String   @id @default(cuid())
+  fullName    String
+  rank        String
+  position    String
+  department  String
+  orderNumber Int      @default(0)
+  bio         String?
+  awards      String?
+  imageUrl    String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SiteSettings {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  updatedAt   DateTime @updatedAt
+}
