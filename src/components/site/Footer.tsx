@@ -1,7 +1,18 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect } from "react";
 import { useAdmin } from "@/lib/admin-store";
+
+const NAV_LINKS = [
+  { href: "/", label: "Главная" },
+  { href: "/usn", label: "УСН — Управление Спецназначения" },
+  { href: "/upp", label: "УПП — Подготовительное подразделение" },
+  { href: "/ethics", label: "Кодекс этики" },
+  { href: "/leaders", label: "Состав руководства" },
+  { href: "/orders", label: "Приказы" },
+  { href: "/news", label: "Новости" },
+];
 
 export function Footer() {
   const { checkSession } = useAdmin();
@@ -43,25 +54,14 @@ export function Footer() {
           {/* Navigation */}
           <div className="flex flex-col items-center md:items-start gap-2">
             <p className="text-xs uppercase tracking-[0.25em] text-gold/80 mb-2">Разделы</p>
-            {[
-              { href: "#about", label: "О ФСО" },
-              { href: "#usn", label: "УСН" },
-              { href: "#sbp", label: "СБП — Служба Президента" },
-              { href: "#oos", label: "ООС — Спецсопровождения" },
-              { href: "#kk", label: "КК — Комендатура Кремля" },
-              { href: "#radio-codes", label: "Радиокоды УСН" },
-              { href: "#substitution", label: "Взаимозамещение" },
-              { href: "#leaders", label: "Состав руководства" },
-              { href: "#orders", label: "Приказы" },
-              { href: "#news", label: "Новости" },
-            ].map((n) => (
-              <a
+            {NAV_LINKS.map((n) => (
+              <Link
                 key={n.href}
                 href={n.href}
                 className="text-sm text-muted-foreground hover:text-gold transition-colors"
               >
                 {n.label}
-              </a>
+              </Link>
             ))}
           </div>
 

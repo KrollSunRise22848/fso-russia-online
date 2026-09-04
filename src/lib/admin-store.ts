@@ -12,34 +12,24 @@ interface AdminUser {
 interface AdminStore {
   admin: AdminUser | null;
   loading: boolean;
-  panelOpen: boolean;
   loginOpen: boolean;
   loginLoading: boolean;
   loginError: string | null;
-  setAdmin: (a: AdminUser | null) => void;
-  setLoading: (l: boolean) => void;
   openLogin: () => void;
   closeLogin: () => void;
-  openPanel: () => void;
-  closePanel: () => void;
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => Promise<void>;
   checkSession: () => Promise<void>;
 }
 
-export const useAdmin = create<AdminStore>((set, get) => ({
+export const useAdmin = create<AdminStore>((set) => ({
   admin: null,
   loading: true,
-  panelOpen: false,
   loginOpen: false,
   loginLoading: false,
   loginError: null,
-  setAdmin: (a) => set({ admin: a }),
-  setLoading: (l) => set({ loading: l }),
   openLogin: () => set({ loginOpen: true, loginError: null }),
   closeLogin: () => set({ loginOpen: false, loginError: null }),
-  openPanel: () => set({ panelOpen: true }),
-  closePanel: () => set({ panelOpen: false }),
   login: async (username, password) => {
     set({ loginLoading: true, loginError: null });
     try {
@@ -72,7 +62,7 @@ export const useAdmin = create<AdminStore>((set, get) => ({
     } catch {
       // ignore
     }
-    set({ admin: null, panelOpen: false });
+    set({ admin: null });
   },
   checkSession: async () => {
     set({ loading: true });

@@ -145,3 +145,64 @@ Stage Summary:
 - Dev server is now a true daemon via start-stop-daemon (PID file: /tmp/next-fso.pid)
 - Preview panel will now load the site (no more infinite loading splash)
 - Server stable across bash calls — solves the user's reported issue
+
+---
+Task ID: 23-34
+Agent: main
+Task: Multi-page site + УПП page + Кодекс этики page + full /admin dashboard page
+
+Work Log:
+- Extracted УПП.docx (28KB): 125 lines about УПП (Управление Подготовительного Подразделения) + Кодекс этики
+  - УПП structure: Учебно-Подготовительное подразделение + Отдел Первичной Подготовки (ОПП)
+  - Requirements for candidates (FZ "О ФСО РФ" Gl.2 st.1): age 21+, citizenship, medical, polygraph, gun license
+  - Restrictions for trainees (Gl. XII PK): no independent arrest/detention until attestation
+  - Firearms training (Law "Об обороте оружия"): ст. 3.1-3.13
+  - Кодекс этики: duties, prohibitions, leadership rules (St. 21-24), dress code (Razdel IV), penalties (St. 36)
+
+Multi-page architecture created (8 routes):
+- / — home page with Hero + quick links + stats + latest news/orders preview
+- /usn — УСН with 7 tabs: overview, СБП, ООС, КК, radio codes, substitution, legal basis
+- /upp — УПП with 7 tabs: overview, ОПП, requirements, restrictions, firearms, basic norms, interaction
+- /ethics — Кодекс этики with 6 tabs: intro, duties, prohibitions, leaders, dress code, penalties
+- /leaders — leadership grid with search + department filter
+- /orders — orders list with status/category filters + search
+- /news — news grid with category filter + search
+- /admin — full admin dashboard with stats, news/orders/leaders CRUD tabs
+
+Components created:
+- src/components/site/SiteLayout.tsx — common layout with Header/Footer/breadcrumbs/page hero
+- src/components/site/Card.tsx — reusable Card + SectionTitle components (6 color themes)
+- Updated src/components/site/Header.tsx — uses next/link, active page highlighting, multi-page nav
+- Updated src/components/site/Footer.tsx — uses next/link, all 7 page links
+- Updated src/components/site/Hero.tsx — quick links to all pages
+- Removed old AdminPanel.tsx (slide-over) — replaced by full /admin page
+- Updated src/lib/admin-store.ts — removed panel state, added checkSession call
+
+New /admin page (full dashboard):
+- Dashboard tab: welcome banner + stats cards (news/orders/leaders counts) + recent activity + quick actions
+- News tab: full CRUD editor with add/edit/delete/pin/publish toggles
+- Orders tab: full CRUD with status/category/signedBy/scope
+- Leaders tab: full CRUD with department/rank/orderNumber + reorder arrows
+- Login prompt shown when not authenticated (with Войти button)
+- LoginDialog mounted in admin page when not admin
+
+Updated seed (scripts/seed.ts):
+- 13 leaders: ФСО (2), УСН (2), СБП (2), ООС (2), КК (2), УПП (2), ОПП (1)
+- 13 orders: 7 УСН + 3 УПП + 2 Кодекс этики + 1 Памятка КК
+- 10 news: УСН events + УПП набор + Кодекс этики + ОПП аттестация
+
+Verification:
+- Lint: clean (0 errors)
+- All 8 routes return HTTP 200
+- Agent Browser: navigation works (click УПП → /upp, Кодекс этики → /ethics, Главная → /)
+- Admin login flow: Войти → login dialog → admin/fso2024 → dashboard
+- Admin tabs: Новости (9 items), Приказы (12), Руководство (13) — all load data
+- VLM verified home (УПП page correct), admin dashboard (all elements present)
+
+Stage Summary:
+- Site is now multi-page (8 routes) instead of single-page
+- УПП page added with 7 tabs based on УПП.docx content
+- Кодекс этики page added with 6 tabs based on УПП.docx ethics section
+- Admin panel transformed from slide-over to full /admin page with dashboard
+- 13 leaders, 13 orders, 10 news (УСН + УПП + Кодекс этики)
+- Server stable via start-stop-daemon (PID 1811)

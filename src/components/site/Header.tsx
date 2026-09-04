@@ -1,26 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Shield, Menu, X, Lock, LayoutDashboard, LogOut } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+import { Menu, X, Lock, LayoutDashboard, LogOut, Shield } from "lucide-react";
 import { useAdmin } from "@/lib/admin-store";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { href: "#about", label: "О ФСО" },
-  { href: "#usn", label: "УСН" },
-  { href: "#sbp", label: "СБП" },
-  { href: "#oos", label: "ООС" },
-  { href: "#kk", label: "КК" },
-  { href: "#radio-codes", label: "Коды" },
-  { href: "#leaders", label: "Руководство" },
-  { href: "#orders", label: "Приказы" },
-  { href: "#news", label: "Новости" },
+  { href: "/", label: "Главная" },
+  { href: "/usn", label: "УСН" },
+  { href: "/upp", label: "УПП" },
+  { href: "/ethics", label: "Кодекс этики" },
+  { href: "/leaders", label: "Руководство" },
+  { href: "/orders", label: "Приказы" },
+  { href: "/news", label: "Новости" },
 ];
 
 export function Header() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { admin, loading, openLogin, openPanel, logout } = useAdmin();
+  const { admin, loading, openLogin, logout } = useAdmin();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -29,18 +30,21 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
+
   return (
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-        scrolled
+        scrolled || pathname !== "/"
           ? "bg-navy-dark/95 backdrop-blur-md shadow-[0_2px_20px_rgba(0,0,0,0.4)] border-b border-gold/30"
-          : "bg-transparent"
+          : "bg-navy-dark/80 backdrop-blur-sm border-b border-gold/15"
       )}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 md:h-20 flex items-center justify-between">
         {/* Logo / brand */}
-        <a href="#top" className="flex items-center gap-3 group">
+        <Link href="/" className="flex items-center gap-3 group">
           <div className="relative h-10 w-10 md:h-12 md:w-12 shrink-0 rounded-full overflow-hidden">
             <img
               src="/images/fso-coat-of-arms.png"
@@ -56,19 +60,29 @@ export function Header() {
               Россия Онлайн
             </span>
           </div>
-        </a>
+        </Link>
 
-          {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-6">
+        {/* Desktop nav */}
+        <nav className="hidden lg:flex items-center gap-5">
           {NAV.map((n) => (
-            <a
+            <Link
               key={n.href}
               href={n.href}
-              className="relative text-sm uppercase tracking-[0.12em] font-medium text-foreground/90 hover:text-gold transition-colors group py-2"
+              className={cn(
+                "relative text-sm uppercase tracking-[0.1em] font-medium py-2 transition-colors group",
+                isActive(n.href)
+                  ? "text-gold"
+                  : "text-foreground/85 hover:text-gold"
+              )}
             >
               {n.label}
-              <span className="absolute -bottom-0.5 left-0 right-0 h-px bg-gradient-to-r from-gold via-gold to-transparent scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
-            </a>
+              <span
+                className={cn(
+                  "absolute -bottom-0.5 left-0 right-0 h-px bg-gradient-to-r from-gold via-gold to-transparent transition-transform origin-left",
+                  isActive(n.href) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                )}
+              />
+            </Link>
           ))}
         </nav>
 
@@ -78,13 +92,13 @@ export function Header() {
             <div className="h-9 w-9" />
           ) : admin ? (
             <>
-              <button
-                onClick={openPanel}
-                className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-md border border-gold/40 bg-gold/10 text-gold hover:bg-gold/20 transition-all text-sm uppercase tracking-wider"
+              <Link
+                href="/admin"
+                className="hidden sm:flex items-center gap-2 px-3 md:px-4 py-2 rounded-md border border-gold/40 bg-gold/10 text-gold hover:bg-gold/20 transition-all text-xs md:text-sm uppercase tracking-wider"
               >
                 <LayoutDashboard className="h-4 w-4" />
-                Панель
-              </button>
+                <span className="hidden md:inline">Панель</span>
+              </Link>
               <button
                 onClick={logout}
                 title="Выйти"
@@ -99,8 +113,7 @@ export function Header() {
               className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-md border border-gold/40 bg-gold/5 text-gold hover:bg-gold/15 transition-all text-xs md:text-sm uppercase tracking-wider"
             >
               <Lock className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">Вход для админа</span>
-              <span className="sm:hidden">Вход</span>
+              <span className="hidden sm:inline">Вход</span>
             </button>
           )}
 
@@ -124,25 +137,28 @@ export function Header() {
       >
         <nav className="px-4 py-3 flex flex-col gap-1">
           {NAV.map((n) => (
-            <a
+            <Link
               key={n.href}
               href={n.href}
               onClick={() => setMobileOpen(false)}
-              className="px-3 py-3 rounded-md text-sm uppercase tracking-wider text-foreground/80 hover:text-gold hover:bg-gold/10 transition-all"
+              className={cn(
+                "px-3 py-3 rounded-md text-sm uppercase tracking-wider transition-all",
+                isActive(n.href)
+                  ? "text-gold bg-gold/10"
+                  : "text-foreground/80 hover:text-gold hover:bg-gold/10"
+              )}
             >
               {n.label}
-            </a>
+            </Link>
           ))}
           {admin && (
-            <button
-              onClick={() => {
-                setMobileOpen(false);
-                openPanel();
-              }}
-              className="px-3 py-3 rounded-md text-sm uppercase tracking-wider text-gold bg-gold/10 text-left"
+            <Link
+              href="/admin"
+              onClick={() => setMobileOpen(false)}
+              className="px-3 py-3 rounded-md text-sm uppercase tracking-wider text-gold bg-gold/10"
             >
               Открыть панель администратора
-            </button>
+            </Link>
           )}
         </nav>
       </div>
