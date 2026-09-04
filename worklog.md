@@ -256,3 +256,38 @@ Stage Summary:
 - Dual-database setup: SQLite for local dev, PostgreSQL for Vercel prod
 - User needs to: create GitHub repo, push, import to Vercel, add DATABASE_URL from Neon, deploy
 - Admin credentials remain: admin / fso2024
+
+---
+Task ID: 42
+Agent: main
+Task: User deployed to Vercel from GitHub — needs help creating database (Neon PostgreSQL)
+
+Work Log:
+- User deployed site to Vercel via GitHub import, but doesn't know how to create database
+- Decided the simplest approach: provide ready-to-run SQL files so user can paste them into Neon SQL Editor (no CLI installation needed)
+
+Created two SQL files in prisma/:
+- prisma/migration.sql (115 lines) — CREATE TABLE statements for all 5 tables (Admin, News, Order, Leader, SiteSettings) with proper indexes
+- prisma/seed.sql (425 lines) — INSERT statements for:
+  - 1 admin (admin/fso2024 with real sha256 hash: 3fd0802e50b16398c8d9f484617e5638:ca5a0c87...)
+  - 13 leaders (ФСО, УСН, СБП, ООС, КК, УПП, ОПП)
+  - 13 orders (УСН + УПП + Кодекс этики + КК памятка)
+  - 10 news (all categories represented)
+- All INSERTs use ON CONFLICT DO NOTHING for safe re-runs
+- Used Prisma migrate diff to generate valid PostgreSQL SQL
+
+Updated README.md with clear step-by-step instructions:
+- Step 5 "Заполнить базу данных" rewritten with:
+  - Создание базы (Vercel → Storage → Connect Database → Neon)
+  - Заполнение базы (paste migration.sql then seed.sql into Neon Query editor)
+  - Перезапуск деплоя (Redeploy to pick up DATABASE_URL env var)
+  - Альтернативный способ через Vercel CLI
+
+Committed: "Добавлены SQL файлы для простого деплоя базы на Vercel/Neon"
+
+Stage Summary:
+- User now has ready SQL files to paste into Neon SQL Editor
+- No CLI installation required — pure web UI approach
+- README.md has complete visual step-by-step guide
+- Lint clean, files committed to main
+- Next: user pushes commit, follows README steps to create Neon DB and run SQL

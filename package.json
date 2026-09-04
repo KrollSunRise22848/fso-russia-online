@@ -89,6 +89,7 @@
     "zustand": "^5.0.6"
   },
   "devDependencies": {
+    "@prisma/migrate": "^7.10.0",
     "@tailwindcss/postcss": "^4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
