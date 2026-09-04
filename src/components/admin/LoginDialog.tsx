@@ -114,10 +114,6 @@ export function LoginDialog() {
               </>
             )}
           </button>
-
-          <p className="text-xs text-center text-muted-foreground italic">
-            Тестовый доступ: <span className="text-gold-light">admin</span> / <span className="text-gold-light">fso2024</span>
-          </p>
         </div>
       </DialogContent>
     </Dialog>
